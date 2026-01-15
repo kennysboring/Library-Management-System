@@ -1,4 +1,5 @@
 use std::io::{self, Read};
+use Library_Management_System::clear_terminal; 
 use crate::Menu;
 
 
@@ -22,6 +23,7 @@ pub fn choice_menu(input:&mut [u8; 1], temp: &mut String) -> Menu {
         .expect("ERROR");
     temp.clear();
 
+    clear_terminal();
     match input[0] {
         b'1' => Menu::AddBook,
         b'2' => Menu::BookList,
@@ -29,5 +31,7 @@ pub fn choice_menu(input:&mut [u8; 1], temp: &mut String) -> Menu {
         b'4' => Menu::ReturnBook,
         b'5' => Menu::Quit,
         _ => Menu::Error,
+
     }
+    
 }
