@@ -1,10 +1,14 @@
+
+use std::io::{self, Read};
 mod add_book;
-enum Menu {
+mod menu;
+pub enum Menu {
     AddBook,
     BookList,
     BorrowBook,
     ReturnBook,
     Quit,
+    Error,
 }
 
 pub struct Book {
@@ -12,26 +16,21 @@ pub struct Book {
     author: String,
 }
 
-fn visual_menu() {
-    println!("==========Menu==========");
-    println!("1. Add book");
-    println!("1. Book list");
-    println!("3. Borrow book");
-    println!("4. Return book");
-    println!("5. Quit");
-}
 fn main() {
     let mut library: Vec<Book> = Vec::new();
-    let choice:Menu = Menu::AddBook;
+    let mut input = [0u8; 1];
+    let mut temp = String::with_capacity(2);
 
     loop {
-        visual_menu();
+        menu::visual_menu();
+        let choice = menu::choice_menu(&mut input, &mut temp);
         match choice {
             Menu::AddBook => add_book::add_book(&mut library),
             Menu::BookList => {},
             Menu::BorrowBook => {},
             Menu::ReturnBook => {},
             Menu::Quit => break,
+            Menu::Error => println!("ERROR 404"),
         }
     }   
 }
