@@ -6,7 +6,7 @@ use crate::Menu;
 pub fn visual_menu() {
     println!("==========Menu==========");
     println!("1. Add book");
-    println!("1. Book list");
+    println!("2. Book list");
     println!("3. Borrow book");
     println!("4. Return book");
     println!("5. Quit");

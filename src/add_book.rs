@@ -1,4 +1,6 @@
 use std::io;
+use Library_Management_System::clear_terminal;
+
 use crate::Book;
 
 pub fn add_book(list: &mut Vec<Book>){
@@ -19,6 +21,7 @@ pub fn add_book(list: &mut Vec<Book>){
                 name: name_book.trim().to_string(),
                 author: author_book.trim().to_string(),
             });
-
+    
+    clear_terminal();
     println!("Book added.")
 }

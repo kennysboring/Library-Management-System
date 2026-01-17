@@ -1,4 +1,5 @@
 mod add_book;
+mod book_list;
 mod menu;
 pub enum Menu {
     AddBook,
@@ -24,7 +25,7 @@ fn main() {
         let choice = menu::choice_menu(&mut input, &mut temp);
         match choice {
             Menu::AddBook => add_book::add_book(&mut library),
-            Menu::BookList => {},
+            Menu::BookList => book_list::book_list(&mut library),
             Menu::BorrowBook => {},
             Menu::ReturnBook => {},
             Menu::Quit => break,
