@@ -16,15 +16,11 @@ pub fn return_book(list: &mut Vec<Book>) {
     match list.get(index) {
         Some(book) => if book.borrowable == false {
             println!("The book you are returning is {} from {}", book.name, book.author);
-            can_return = true;
+            list[index].borrowable = true;
+            println!("Return successful")
         } else {
             println!("The book {} from {} was already returned", book.name, book.author);
         },
         None => println!("Book not found, verify the list"),
-    }
-    
-    if can_return == true {
-        list[index].borrowable = true;
-        println!("Return successful")
     }
 }
