@@ -20,6 +20,8 @@ pub fn add_book(list: &mut Vec<Book>){
     list.push(Book{
                 name: name_book.trim().to_string(),
                 author: author_book.trim().to_string(),
+                borrowable: true,
+                id: (list.len() + 1) as u32
             });
     
     clear_terminal();

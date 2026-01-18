@@ -1,3 +1,4 @@
+mod borrow_book;
 mod add_book;
 mod book_list;
 mod menu;
@@ -13,6 +14,8 @@ pub enum Menu {
 pub struct Book {
     name: String,
     author: String,
+    borrowable: bool,
+    id: u32
 }
 
 fn main() {
@@ -26,7 +29,7 @@ fn main() {
         match choice {
             Menu::AddBook => add_book::add_book(&mut library),
             Menu::BookList => book_list::book_list(&mut library),
-            Menu::BorrowBook => {},
+            Menu::BorrowBook => borrow_book::borrow_book(&mut library),
             Menu::ReturnBook => {},
             Menu::Quit => break,
             Menu::Error => println!("ERROR 404"),
