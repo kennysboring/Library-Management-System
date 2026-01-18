@@ -3,7 +3,6 @@ use crate::Book;
 
 pub fn return_book(list: &mut Vec<Book>) {
     let mut id: String = String::with_capacity(2);
-    let mut can_return: bool = false;
 
     println!("Write the id book you want to return" );
     io::stdin()
@@ -14,7 +13,7 @@ pub fn return_book(list: &mut Vec<Book>) {
     let index = id_as_number - 1;
 
     match list.get(index) {
-        Some(book) => if book.borrowable == false {
+        Some(book) => if !book.borrowable {
             println!("The book you are returning is {} from {}", book.name, book.author);
             list[index].borrowable = true;
             println!("Return successful")

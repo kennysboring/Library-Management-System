@@ -13,10 +13,10 @@ pub enum Menu {
 }
 
 pub struct Book {
+    id: u32,
     name: String,
     author: String,
     borrowable: bool,
-    id: u32
 }
 
 fn main() {
