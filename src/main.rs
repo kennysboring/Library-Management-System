@@ -1,3 +1,4 @@
+mod return_book;
 mod borrow_book;
 mod add_book;
 mod book_list;
@@ -30,7 +31,7 @@ fn main() {
             Menu::AddBook => add_book::add_book(&mut library),
             Menu::BookList => book_list::book_list(&mut library),
             Menu::BorrowBook => borrow_book::borrow_book(&mut library),
-            Menu::ReturnBook => {},
+            Menu::ReturnBook => return_book::return_book(&mut library),
             Menu::Quit => break,
             Menu::Error => println!("ERROR 404"),
         }
