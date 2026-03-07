@@ -1,9 +1,9 @@
 use std::io::{self, Write};
 
 #[derive(Debug)]
-pub enum ERRO {
+pub enum Error {
     ErrorReadMenu,
-    
+
     ErrorReadAddBook,
 
     ErrorReadBorrowBook,
@@ -30,6 +30,25 @@ pub struct Book {
     pub borrowable: bool,
 }
 
+pub struct Library {
+    pub book: Vec<Book>,
+}
+
+impl Library {
+    pub fn new_library() -> Self {
+        Library { book: Vec::new() }
+    }
+
+    pub fn add_book(&mut self, title: String, author: String) {
+        let new_book = Book{
+            name: title,
+            author: author,
+            borrowable: true,
+            id: (self.book.len() + 1) as u32,
+        };
+        self.book.push(new_book);
+    }
+}
 
 pub fn clear_terminal() {
     print!("\x1B[2J\x1B[1;1H");
