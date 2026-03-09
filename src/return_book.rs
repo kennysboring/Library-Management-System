@@ -7,7 +7,7 @@ pub fn return_book(lib: &mut Library) -> Result<(), Error>{
     println!("Write the id book you want to return");
     io::stdin().read_line(&mut id).map_err(|_|Error::ErrorReadReturnBooK)?;
 
-    let id_as_number: usize = id.trim().parse().map_err(|_|Error::ErrorIDReturnBook)?;
+    let id_as_number: usize = id.trim().parse().map_err(|_|Error::ErrorIDReturnBook)?;  
     let index = id_as_number - 1;
 
     match lib.book.get(index) {

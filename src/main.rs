@@ -6,7 +6,7 @@ mod menu;
 mod return_book;
 
 fn main() -> Result<(), Error>{
-    let mut new_library = Library::new_library();
+    let mut new_library = Library::new();
 
     let mut input = [0u8; 1];
     let mut temp = String::with_capacity(2);
