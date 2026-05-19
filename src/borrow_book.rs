@@ -18,6 +18,7 @@ pub fn borrow_book(lib: &mut Library) -> Result<(), Error>{
                     book.name, book.author
                 );
                 lib.book[index].borrowable = false;
+                lib.save_in_file();
                 println!("Borrow successful")
             } else {
                 println!(
