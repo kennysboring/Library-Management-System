@@ -10,14 +10,16 @@ pub fn visual_menu() {
     println!("5. Quit");
 }
 
-pub fn choice_menu(input: &mut [u8; 1], temp: &mut String) -> Result<Menu, Error>{
+pub fn choice_menu(input: &mut [u8; 1]) -> Result<Menu, Error>{
+    let mut temp = String::with_capacity(2); //variavel; string mutavel criada com dois espaços já alocado para descartar \n
+    
     println!("Choice the function you need: ");
-    io::stdin().read_exact(input).map_err(|_|Error::ErrorReadMenu)?;
-    io::stdin().read_line(temp).map_err(|_|Error::ErrorReadMenu)?;
-    temp.clear();
+    io::stdin().read_exact(input).map_err(|_|Error::ErrorReadMenu)?; //input no terminal que guarda só o primeiro valor digitado
+    io::stdin().read_line(&mut temp).map_err(|_|Error::ErrorReadMenu)?;//input no terminal que guarda o resto
+    temp.clear();//limpa a variavel 'temp'
 
-    clear_terminal();
-    match input[0] {
+    clear_terminal();//chama a função que limpa o terminal
+    match input[0] { //escolhe qual opção retornar com base no valor digitado ('switch' do python 
         b'1' => Ok(Menu::AddBook),
         b'2' => Ok(Menu::BookList),
         b'3' => Ok(Menu::BorrowBook),
