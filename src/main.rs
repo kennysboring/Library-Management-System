@@ -1,3 +1,5 @@
+use std::println;
+
 use library_management_system::{Error, Library, Menu};
 mod add_book;
 mod book_list;
@@ -5,19 +7,32 @@ mod borrow_book;
 mod menu;
 mod return_book;
 
-fn main() -> Result<(), Error>{
+fn main() -> Result<(), Error> {
     let mut new_library = Library::new(); //cria uma struct 'Library'  
 
     let mut input = [0u8; 1]; //variavel: lista mutavel que armazena 8 bits
 
     loop {
-        menu::visual_menu();//chama a função 'visual menu'
-        let choice = menu::choice_menu(&mut input);//variavel
-        match choice { //escolhe qual função chamar baseado na variavel choice
-            Ok(Menu::AddBook) => add_book::add_book(&mut new_library)?,
+        menu::visual_menu(); //chama a função 'visual menu'
+        let choice = menu::choice_menu(&mut input); //variavel
+        match choice {
+            //escolhe qual função chamar baseado na variavel choice
+            Ok(Menu::AddBook) => {
+                if let Err(e) = add_book::add_book(&mut new_library) {
+                    println!("Error {:?}", e);
+                }
+            }
+            Ok(Menu::BorrowBook) => {
+                if let Err(e) = borrow_book::borrow_book(&mut new_library) {
+                    println!("Error {:?}", e);
+                }
+            }
+            Ok(Menu::ReturnBook) => {
+                if let Err(e) = return_book::return_book(&mut new_library) {
+                    println!("Error {:?}", e);
+                }
+            }
             Ok(Menu::BookList) => book_list::book_list(&new_library),
-            Ok(Menu::BorrowBook) => borrow_book::borrow_book(&mut new_library)?,
-            Ok(Menu::ReturnBook) => return_book::return_book(&mut new_library)?,
             Ok(Menu::Quit) => break,
             Err(_) => println!("Option does not exist, try again"),
         };

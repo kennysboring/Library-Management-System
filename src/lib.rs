@@ -40,7 +40,7 @@ pub struct Book {
 }
 
 pub struct Library {
-    pub book: Vec<Book>, //lista dos livros
+    book: Vec<Book>, //lista dos livros
     next_id: u32, //armazena o último ID adicionado para garantir que cada novo livro receba um ID único
 }
 
@@ -71,34 +71,36 @@ impl Library {
         self.book.push(new_book); //adiciona a variavel na lista 'book'
         self.save_in_file(); //salva a lista no arquivo
     }
-    
+
     pub fn borrow_book(&mut self, id: usize) -> Status {
-        if id == 0 { return Status::NotFound;}
-        
+        if id == 0 {
+            return Status::NotFound;
+        }
+
         let index = id - 1;
-        let status = self.verify_borrowable(index); 
+        let status = self.verify_borrowable(index);
         if let Status::Available = status {
-                self.book[index].borrowable = false; //troca 'borrowable' para false
-                self.save_in_file(); //troca o estado armazenado no arquivo 'books.txt' (banco de dados)
-            }
+            self.book[index].borrowable = false; //troca 'borrowable' para false
+            self.save_in_file(); //troca o estado armazenado no arquivo 'books.txt' (banco de dados)
+        }
 
         status
     }
-    
 
-    pub fn return_book(&mut self, id: usize) -> Status { 
-        if id == 0 { return Status::NotFound;}
-        
+    pub fn return_book(&mut self, id: usize) -> Status {
+        if id == 0 {
+            return Status::NotFound;
+        }
+
         let index = id - 1;
-        let status = self.verify_borrowable(index); 
+        let status = self.verify_borrowable(index);
         if let Status::AlreadyBorrowed = status {
-                self.book[index].borrowable = true; //troca 'borrowable' para false
-                self.save_in_file(); //troca o estado armazenado no arquivo 'books.txt' (banco de dados)
-            }
+            self.book[index].borrowable = true; //troca 'borrowable' para false
+            self.save_in_file(); //troca o estado armazenado no arquivo 'books.txt' (banco de dados)
+        }
 
         status
     }
-    
 
     fn verify_borrowable(&self, index: usize) -> Status {
         match self.book.get(index) {
@@ -106,6 +108,10 @@ impl Library {
             Some(_) => Status::AlreadyBorrowed,
             None => Status::NotFound,
         }
+    }
+    
+    pub fn books(&self) -> &[Book] {
+        &self.book
     }
 
     fn book_to_line(book: &Book) -> String {
@@ -118,7 +124,6 @@ impl Library {
             if book.borrowable { "true" } else { "false" },
         )
     }
-    
 
     pub fn save_in_file(&self) {
         //cria o arquivo 'book.txt'
@@ -184,6 +189,8 @@ impl Library {
         }
     }
 }
+
+
 
 pub fn clear_terminal() {
     //limpa o terminal

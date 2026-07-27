@@ -1,21 +1,23 @@
 use library_management_system::{Error, Library, Status};
 use std::io;
 
-pub fn borrow_book(lib: &mut Library) -> Result<(), Error>{
+pub fn borrow_book(lib: &mut Library) -> Result<(), Error> {
     let mut id: String = String::with_capacity(2);
 
     println!("Write the id book you want to borrow");
-    io::stdin().read_line(&mut id).map_err(|_|Error::ErrorReadBorrowBook)?; //input no terminal
+    io::stdin()
+        .read_line(&mut id)
+        .map_err(|_| Error::ErrorReadBorrowBook)?; //input no terminal
 
-    let id_as_number: usize = id.trim().parse().map_err(|_|Error::ErrorIDBorrowBook)?; //trata a variavel 'id' transformando texto em número
+    let id_as_number: usize = id.trim().parse().map_err(|_| Error::ErrorIDBorrowBook)?; //trata a variavel 'id' transformando texto em número
 
     match lib.borrow_book(id_as_number) {
         Status::Available => {
             println!("Borrow successful");
-        },
+        }
         Status::AlreadyBorrowed => {
             println!("The book was already borrowed");
-        },
+        }
         Status::NotFound => println!("Book not found, verify the list"),
     }
     Ok(())
