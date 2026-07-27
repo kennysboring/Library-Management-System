@@ -1,4 +1,4 @@
-use Library_Management_System::{clear_terminal, Error, Menu};
+use library_management_system::{clear_terminal, Error, Menu};
 use std::io::{self, Read};
 
 pub fn visual_menu() {

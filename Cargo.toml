@@ -1,5 +1,5 @@
 [package]
-name = "Library-Management-System"
+name = "library_management_system"
 version = "0.1.0"
 edition = "2024"
 

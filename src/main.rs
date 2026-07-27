@@ -1,4 +1,4 @@
-use Library_Management_System::{Error, Library, Menu};
+use library_management_system::{Error, Library, Menu};
 mod add_book;
 mod book_list;
 mod borrow_book;
@@ -15,7 +15,7 @@ fn main() -> Result<(), Error>{
         let choice = menu::choice_menu(&mut input);//variavel
         match choice { //escolhe qual função chamar baseado na variavel choice
             Ok(Menu::AddBook) => add_book::add_book(&mut new_library)?,
-            Ok(Menu::BookList) => book_list::book_list(&mut new_library),
+            Ok(Menu::BookList) => book_list::book_list(&new_library),
             Ok(Menu::BorrowBook) => borrow_book::borrow_book(&mut new_library)?,
             Ok(Menu::ReturnBook) => return_book::return_book(&mut new_library)?,
             Ok(Menu::Quit) => break,

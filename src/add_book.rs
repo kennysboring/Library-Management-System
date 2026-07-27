@@ -1,4 +1,4 @@
-use Library_Management_System::{Error, Library, clear_terminal};
+use library_management_system::{Error, Library, clear_terminal};
 use std::io;
 
 pub fn add_book(lib: &mut Library) -> Result<(), Error> {

@@ -3,5 +3,5 @@
 version = 4
 
 [[package]]
-name = "Library-Management-System"
+name = "library_management_system"
 version = "0.1.0"
