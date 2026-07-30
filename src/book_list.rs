@@ -1,6 +1,6 @@
-use library_management_system::Library;
+use library_management_system::{Library, Error};
 
-pub async fn book_list(lib: &Library) -> Result<(), sqlx::Error>{
+pub async fn book_list(lib: &Library) -> Result<(), Error>{
 
     let list_all_books = lib.books().await?;
     println!("==========BOOK LIST==========");

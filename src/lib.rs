@@ -9,11 +9,9 @@ pub enum Error {
 
     ErrorReadBorrowBook,
     ErrorIDBorrowBook,
-    ErrorStatusBorrowBook,
 
     ErrorReadReturnBooK,
     ErrorIDReturnBook,
-    ErrorStatusReturnBook,
 
     ErrorChoiceMenu,
 
@@ -122,7 +120,7 @@ impl Library {
     }
     
     pub async fn books(&self) -> Result<Vec<Book>, sqlx::Error> {
-        let books = sqlx::query_as("SELECT * FROM books")
+        let books = sqlx::query_as("SELECT id, name, author, borrowable FROM books")
             .fetch_all(&self.pool)
             .await?;
 
@@ -133,6 +131,6 @@ impl Library {
 pub fn clear_terminal() -> Result<(), Error>{
     //limpa o terminal
     print!("\x1B[2J\x1B[1;1H"); //envia comandos ANSI: '\x1B[2J' limpa a tela e '\x1B[1;1H' move o cursor para o inicio
-    io::stdout().flush().map_err(|_| Error::ErrorIDReturnBook)?; //força a saída dos comandos
+    io::stdout().flush().map_err(|_| Error::ErrorClearTerminal)?; //força a saída dos comandos
     Ok(())
 }

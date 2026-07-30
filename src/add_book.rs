@@ -18,7 +18,7 @@ pub async fn add_book(lib: &Library) -> Result<(), Error> {
 
     lib.add_book(name_book.trim().to_string(), author_book.trim().to_string()).await?; //chama a função 'add_book'
 
-    let _ = clear_terminal(); //limpa o terminal
+    clear_terminal()?; //limpa o terminal
     println!("Book added.");
     Ok(())
 }

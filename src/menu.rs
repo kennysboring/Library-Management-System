@@ -22,7 +22,7 @@ pub fn choice_menu(input: &mut [u8; 1]) -> Result<Menu, Error> {
         .map_err(|_| Error::ErrorReadMenu)?; //input no terminal que guarda o resto
     temp.clear(); //limpa a variavel 'temp'
 
-    let _ = clear_terminal(); //chama a função que limpa o terminal
+    clear_terminal()?; //chama a função que limpa o terminal
     match input[0] {
         //escolhe qual opção retornar com base no valor digitado ('switch' do python
         b'1' => Ok(Menu::AddBook),
