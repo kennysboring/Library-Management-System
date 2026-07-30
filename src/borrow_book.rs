@@ -1,7 +1,7 @@
 use library_management_system::{Error, Library, Status};
 use std::io;
 
-pub fn borrow_book(lib: &mut Library) -> Result<(), Error> {
+pub async fn borrow_book(lib: &Library) -> Result<(), Error> {
     let mut id: String = String::with_capacity(2);
 
     println!("Write the id book you want to borrow");
@@ -9,9 +9,9 @@ pub fn borrow_book(lib: &mut Library) -> Result<(), Error> {
         .read_line(&mut id)
         .map_err(|_| Error::ErrorReadBorrowBook)?; //input no terminal
 
-    let id_as_number: usize = id.trim().parse().map_err(|_| Error::ErrorIDBorrowBook)?; //trata a variavel 'id' transformando texto em número
+    let id_as_number: i32 = id.trim().parse().map_err(|_| Error::ErrorIDBorrowBook)?; //trata a variavel 'id' transformando texto em número
 
-    match lib.borrow_book(id_as_number) {
+    match lib.borrow_book(id_as_number).await? {
         Status::Available => {
             println!("Borrow successful");
         }

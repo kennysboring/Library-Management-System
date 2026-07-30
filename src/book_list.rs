@@ -1,8 +1,8 @@
 use library_management_system::Library;
 
-pub fn book_list(lib: &Library) {
+pub async fn book_list(lib: &Library) -> Result<(), sqlx::Error>{
 
-    let list_all_books = lib.books();
+    let list_all_books = lib.books().await?;
     println!("==========BOOK LIST==========");
     if list_all_books.is_empty() {
         //verifica se a varivel 'book' da struct 'Library' esta vazia
@@ -19,4 +19,5 @@ pub fn book_list(lib: &Library) {
             );
         }
     }
+    Ok(())
 }

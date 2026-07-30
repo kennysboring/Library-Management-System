@@ -1,7 +1,7 @@
 use library_management_system::{Error, Library, clear_terminal};
 use std::io;
 
-pub fn add_book(lib: &mut Library) -> Result<(), Error> {
+pub async fn add_book(lib: &Library) -> Result<(), Error> {
     let mut name_book = String::new();
     let mut author_book = String::new();
 
@@ -16,9 +16,9 @@ pub fn add_book(lib: &mut Library) -> Result<(), Error> {
         .read_line(&mut author_book)
         .map_err(|_| Error::ErrorReadAddBook)?;
 
-    lib.add_book(name_book.trim().to_string(), author_book.trim().to_string()); //chama a função 'add_book'
+    lib.add_book(name_book.trim().to_string(), author_book.trim().to_string()).await?; //chama a função 'add_book'
 
-    clear_terminal(); //limpa o terminal
+    let _ = clear_terminal(); //limpa o terminal
     println!("Book added.");
     Ok(())
 }

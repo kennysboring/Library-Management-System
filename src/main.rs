@@ -1,14 +1,15 @@
 use std::println;
 
-use library_management_system::{Error, Library, Menu};
+use library_management_system::{Library, Menu};
 mod add_book;
 mod book_list;
 mod borrow_book;
 mod menu;
 mod return_book;
 
-fn main() -> Result<(), Error> {
-    let mut new_library = Library::new(); //cria uma struct 'Library'  
+#[tokio::main]
+async fn main() {
+    let new_library = Library::new().await.expect("Error to inicializate struct Library"); //cria uma struct 'Library'  
 
     let mut input = [0u8; 1]; //variavel: lista mutavel que armazena 8 bits
 
@@ -18,24 +19,27 @@ fn main() -> Result<(), Error> {
         match choice {
             //escolhe qual função chamar baseado na variavel choice
             Ok(Menu::AddBook) => {
-                if let Err(e) = add_book::add_book(&mut new_library) {
+                if let Err(e) = add_book::add_book(&new_library).await {
+                    println!("Error {:?}", e);
+                }
+            }
+            Ok(Menu::BookList) => {
+                if let Err(e) = book_list::book_list(&new_library).await {
                     println!("Error {:?}", e);
                 }
             }
             Ok(Menu::BorrowBook) => {
-                if let Err(e) = borrow_book::borrow_book(&mut new_library) {
+                if let Err(e) = borrow_book::borrow_book(&new_library).await {
                     println!("Error {:?}", e);
                 }
             }
             Ok(Menu::ReturnBook) => {
-                if let Err(e) = return_book::return_book(&mut new_library) {
+                if let Err(e) = return_book::return_book(&new_library).await {
                     println!("Error {:?}", e);
                 }
             }
-            Ok(Menu::BookList) => book_list::book_list(&new_library),
             Ok(Menu::Quit) => break,
             Err(_) => println!("Option does not exist, try again"),
         };
     }
-    Ok(())
 }
