@@ -9,7 +9,9 @@ mod return_book;
 
 #[tokio::main]
 async fn main() {
-    let new_library = Library::new().await.expect("Error to inicializate struct Library"); //cria uma struct 'Library'  
+    let new_library = Library::new()
+        .await
+        .expect("Error to inicializate struct Library"); //cria uma struct 'Library'  
 
     let mut input = [0u8; 1]; //variavel: lista mutavel que armazena 8 bits
 

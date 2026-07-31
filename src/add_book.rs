@@ -16,7 +16,13 @@ pub async fn add_book(lib: &Library) -> Result<(), Error> {
         .read_line(&mut author_book)
         .map_err(|_| Error::ErrorReadAddBook)?;
 
-    lib.add_book(name_book.trim().to_string(), author_book.trim().to_string()).await?; //chama a função 'add_book'
+    if name_book.is_empty() || author_book.is_empty() {
+        println!("Do not let a empty space");
+        return Err(Error::EmptySpaceAddBook);
+    }
+
+    lib.add_book(name_book.trim().to_string(), author_book.trim().to_string())
+        .await?; //chama a função 'add_book'
 
     clear_terminal()?; //limpa o terminal
     println!("Book added.");

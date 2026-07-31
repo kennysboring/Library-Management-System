@@ -1,7 +1,6 @@
-use library_management_system::{Library, Error};
+use library_management_system::{Error, Library};
 
-pub async fn book_list(lib: &Library) -> Result<(), Error>{
-
+pub async fn book_list(lib: &Library) -> Result<(), Error> {
     let list_all_books = lib.books().await?;
     println!("==========BOOK LIST==========");
     if list_all_books.is_empty() {
