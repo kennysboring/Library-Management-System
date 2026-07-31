@@ -16,7 +16,7 @@ pub async fn add_book(lib: &Library) -> Result<(), Error> {
         .read_line(&mut author_book)
         .map_err(|_| Error::ErrorReadAddBook)?;
 
-    if name_book.is_empty() || author_book.is_empty() {
+    if name_book.trim().is_empty() || author_book.trim().is_empty() {
         println!("Do not let a empty space");
         return Err(Error::EmptySpaceAddBook);
     }
