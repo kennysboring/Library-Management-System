@@ -82,29 +82,43 @@ impl Library {
     }
 
     pub async fn borrow_book(&self, id: i32) -> Result<Status, sqlx::Error> {
-        let status = self.verify_borrowable(id).await?;
-
-        if let Status::Available = status {
-            sqlx::query("UPDATE books SET borrowable = false WHERE id = $1")
-                .bind(id)
-                .execute(&self.pool)
-                .await?;
+        let result = sqlx::query_as::<_, CheckBorrowable>(
+            "UPDATE books SET borrowable = false WHERE id = $1 AND borrowable = true RETURNING borrowable"
+        )
+        .bind(id)
+        .fetch_optional(&self.pool)
+        .await?;
+    
+        if result.is_some() {
+            return Ok(Status::Available); // emprestou com sucesso
         }
-
-        Ok(status)
+    
+        // não emprestou - precisa descobrir se é porque não existe ou porque já estava emprestado
+        let exists = self.verify_borrowable(id).await?;
+        Ok(match exists {
+            Status::NotFound => Status::NotFound,
+            _ => Status::AlreadyBorrowed,
+        })
     }
 
     pub async fn return_book(&self, id: i32) -> Result<Status, sqlx::Error> {
-        let status = self.verify_borrowable(id).await?;
-
-        if let Status::AlreadyBorrowed = status {
-            sqlx::query("UPDATE books SET borrowable = true WHERE id = $1")
-                .bind(id)
-                .execute(&self.pool)
-                .await?;
+        let result = sqlx::query_as::<_, CheckBorrowable>(
+            "UPDATE books SET borrowable = true WHERE id = $1 AND borrowable = false RETURNING borrowable"
+        )
+        .bind(id)
+        .fetch_optional(&self.pool)
+        .await?;
+    
+        if result.is_some() {
+            return Ok(Status::AlreadyBorrowed); // retornou com sucesso
         }
-
-        Ok(status)
+    
+        // não retornou, precisa descobrir se é porque não existe ou porque já foi retornado
+        let exists = self.verify_borrowable(id).await?;
+        Ok(match exists {
+            Status::NotFound => Status::NotFound,
+            _ => Status::Available,
+        })
     }
 
     async fn verify_borrowable(&self, id: i32) -> Result<Status, sqlx::Error> {
